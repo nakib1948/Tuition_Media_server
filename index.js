@@ -27,15 +27,6 @@ client.connect(err => {
       })
   })
 
-  app.post('/studentpost',(req,res)=>{
-    const regist=req.body;
-    studentpost.insertOne(regist)
-    .then(result=>{
-      console.log(result)
-
-    })
-})
-
 
  app.get('/studentLogin',(req,res)=>{
     register.find({})
@@ -44,6 +35,22 @@ client.connect(err => {
     })
  })
 
+
+ app.post('/studentpost',(req,res)=>{
+  const regist=req.body;
+  studentpost.insertOne(regist)
+  .then(result=>{
+    console.log(result)
+
+  })
+})
+
+app.get('/studentpostget',(req,res)=>{
+  studentpost.find({})
+  .toArray((err,documents)=>{
+    res.send(documents)
+  })
+})
 
 
 
