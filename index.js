@@ -16,6 +16,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const register = client.db("Tuition_Media").collection("Register");
   const studentpost=client.db("Tuition_Media").collection("Studentpost");
+  const teacherpost=client.db("Tuition_Media").collection("TeacherPost");
+  const relation=client.db("Tuition_Media").collection("Relation");
   // perform actions on the collection object
   console.log('db connect')
   app.post('/register',(req,res)=>{
@@ -47,6 +49,38 @@ client.connect(err => {
 
 app.get('/studentpostget',(req,res)=>{
   studentpost.find({})
+  .toArray((err,documents)=>{
+    res.send(documents)
+  })
+})
+
+app.post('/teacherpost',(req,res)=>{
+  const regist=req.body;
+  teacherpost.insertOne(regist)
+  .then(result=>{
+    console.log(result)
+
+  })
+})
+
+app.get('/teacherpostget',(req,res)=>{
+  teacherpost.find({})
+  .toArray((err,documents)=>{
+    res.send(documents)
+  })
+})
+
+app.post('/relationpost',(req,res)=>{
+  const regist=req.body;
+  relation.insertOne(regist)
+  .then(result=>{
+    console.log(result)
+
+  })
+})
+
+app.get('/relationget',(req,res)=>{
+  relation.find({})
   .toArray((err,documents)=>{
     res.send(documents)
   })
