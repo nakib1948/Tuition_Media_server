@@ -3,7 +3,7 @@ const bodyParser=require('body-parser')
 const cors=require('cors')
 const app = express()
 const port = 5000
-
+const ObjectId=require('mongodb').ObjectId;
 
 
 app.use(bodyParser.json())
@@ -28,6 +28,28 @@ client.connect(err => {
 
       })
   })
+
+   app.patch('/updateprofile/:id',(req,res)=>{
+    const regist=req.body;
+    register.updateOne({_id:ObjectId(req.params.id)},{
+      $set:{username:regist.name,password:regist.password,address:regist.address,
+        class:regist.class,school:regist.school,image:regist.image,
+        mobile:regist.mobile}
+    })
+    .then(result =>{
+      res.send(result.modifiedCount>0)
+    })
+
+
+  })
+
+  app.delete('/deletepost/:id',(req,res)=>{
+    teacherpost.deleteOne({_id: ObjectId(req.params.id)})
+    .then(result=>{
+     res.send(result.deletedCount>0)
+    })
+  })
+
 
 
  app.get('/studentLogin',(req,res)=>{
